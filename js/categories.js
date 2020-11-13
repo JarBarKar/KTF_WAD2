@@ -5,6 +5,14 @@ const categories = {
     dairylist : {list:["butter","cheese","cream","milk","yogurt"],name:"Dairy",imageurl:"images/dairy.jpg",color: "beige"},
     grainlist : {list:["barley","bread","oat","pasta","rice","wheat"],name:"Grains",imageurl:"images/grains.jpg",color:"yellow"},
     dietList: {list:["gluten free","ketogenic","vegetarian","lacto-vegetarian","ovo-vegetarian","vegan","pescetarian","paleo","primal","whole30"],name:"Diets",imageurl:"images/diet.jpg",color:"orange"},
+    cuisinesList: {list:["african","american","british","cajun","caribbean","chinese","eastern european","european","french","german","greek","indian","irish","italian","japanese","jewish","korean","latin american","mediterranean","mexican","middle eastern","nordic","southern","spanish","thai","vietnamese"],name: "Cuisines", imageurl: "images/cuisines.jpg",color:"gold"},
+    intolerancesList: {list:["dairy","egg","gluten","grain","peanut","seafood","sesame","shellfish","soy","sulfite","tree nut","wheat"],name:"Allergies", imageurl: "images/intolerances.jpg",color: "pink"} 
+}
+
+const categories2 = {
+    calorieList:{list:["50 - 200", "201 - 400", "401 - 600", "601 - 800"],name:"Calories",imageurl:"images/calorie.jpg",color: "Yellow"},
+    TimingList:{list:["Under 15 minutes", "Under 30 minutes", "Under 1 hour", "Under 2 hours", "Unlimited time"],name:"Preparation Time",imageurl:"images/time.jpg",color: "Red"},
+    dietList: {list:["gluten free","ketogenic","vegetarian","lacto-vegetarian","ovo-vegetarian","vegan","pescetarian","paleo","primal","whole30"],name:"Diets",imageurl:"images/diet.jpg",color:"orange"},
     cuisinesList: {list:["african","american","british","cajun","caribbean","chinese","eastern european","european","french","german","greek","indian","irish","italian","japanese","jewish","korean","latin american","mediterranean","mexican","middle eastern","nordic","southern","spanish","thai","vietnamese"],name: "Cuisines", imageurl: "images/cuisines.jpg",color:"grey"},
     intolerancesList: {list:["dairy","egg","gluten","grain","peanut","seafood","sesame","shellfish","soy","sulfite","tree nut","wheat"],name:"Allergies", imageurl: "images/intolerances.jpg",color: "pink"} 
 }
@@ -248,6 +256,10 @@ function no_result_action(){
     call_api(temporary_storage,"getIngredients");
     //Also remember to delete the apprioriate tag and uncheck the correct checkbox
 
+}
+
+function test(){
+    console.log("woohoo")
 }
 
 //[START] Using mutation observer to gather all the ingredients and send to spoontaculous API

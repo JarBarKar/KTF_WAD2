@@ -225,12 +225,34 @@ function actionFunction(xml,functionName){
         document.getElementById("recipeServing").innerHTML= `<br>SERVES ${parseJSON.servings} ADULTS</br><br>COOKS IN ${parseJSON.readyInMinutes} MINUTES </br>`;
 
         var nutritionBox={};
-        let nutritioninfo;
-        console.log(parseJSON.nutrition.nutrients);
-        for (nutritioninfo in parseJSON.nutrition.nutrients){
-            let unit=nutritioninfo.amount+nutritioninfo.unit;
-            nutritionBox[nutritioninfo.title]={units: unit , percent: nutritioninfo.percentOfDailyNeeds};
+        for (var x of Object.entries(parseJSON.nutrition.nutrients)){
+            var amount =  x[1].amount
+            var unit = x[1].unit
+            nutritionBox[x[1].title]= {units: amount + unit , percent: x[1].percentOfDailyNeeds};
         }
+
+        console.log(nutritionBox)
+        
+
+        document.getElementById("nutriunit").innerHTML=`
+        <td>${nutritionBox.Calories.units}</td>
+        <td>${nutritionBox.Fat.units}</td>
+        <td>${nutritionBox."Saturated Fat".units}</td>
+        <td>${nutritionBox.Sugar.units}</td>
+        <td>${nutritionBox.Sodium.units}</td>
+        <td>${nutritionBox.Protein.units}</td>
+        <td>${nutritionBox.Carbohydrates.units}</td>
+        <td>${nutritionBox.Fiber.units}</td>`;
+
+        document.getElementById("nutripercent").innerHTML=`
+        <td>${nutritionBox.Calories.percent}</td>
+        <td>${nutritionBox.Fat.percent}</td>
+        <td>${nutritionBox."Saturated Fat".percent}</td>
+        <td>${nutritionBox.Sugar.percent}</td>
+        <td>${nutritionBox.Sodium.percent}</td>
+        <td>${nutritionBox.Protein.percent}</td>
+        <td>${nutritionBox.Carbohydrates.percent}</td>
+        <td>${nutritionBox.Fiber.percent}</td>`;
         
 
 

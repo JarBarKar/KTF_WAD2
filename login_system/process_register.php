@@ -32,7 +32,7 @@
     
 	if (empty($password1)) { 
 		array_push($errors, "Password is required"); 
-	}
+    }
 
     if (empty($errors)){
         $hashed = password_hash($password1, PASSWORD_DEFAULT);

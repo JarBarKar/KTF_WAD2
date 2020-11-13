@@ -1,6 +1,6 @@
 
 const youtubeAPI='';
-const spoonAPI='';
+const spoonAPI='ec2e7f33adde4f219a4d83a71c6460e5';
 
 
 
@@ -99,7 +99,7 @@ function urlFunction(input,functionName) {
     else if (functionName=="getRandom"){
         var base="https://api.spoonacular.com/recipes/random?number=1&apiKey=";
         return base+spoonAPI
-
+    }
     else if(functionName=="getRecipe"){
         var temporary_storage = JSON.parse(sessionStorage.getItem("recipe_storage"));
         var base="https://api.spoonacular.com/recipes/complexSearch?addRecipeInformation=true&number=10&apiKey=";

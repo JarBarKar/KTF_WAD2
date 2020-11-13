@@ -69,6 +69,12 @@
 // #5 segregate unlimited time to any time [fixed]
 
 
+//Problems to fixed
+// #1 confirm kenneth and sem, which dashboard to use
+// #2 Need to fix JC carousel. Does not appear
+// #3 Responsiveness issue with index.html
+
+
 
 
 

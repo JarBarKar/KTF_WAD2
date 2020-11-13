@@ -130,6 +130,7 @@ function remove_all_tags(){
 // }
 
 
+
 // Retrieve the API call and populate the cards in index.html
 //getIngredients,youtubeLink,getSummary,getDetail
 function actionFunction(xml,functionName){
@@ -147,9 +148,9 @@ function actionFunction(xml,functionName){
 
         for(recipe of info){
             var card= `
-            <div class="card col" style=" background-color: white" onclick="recipeSet(${recipe.id});window.open('recipe.html', '_blank');">
-                    <img class="card-img-top " src="${recipe.image}" alt="Card image cap">
-                        <div class="card-body">
+            <div class="card col" style=" background-color: white" onclick="recipeSet(${recipe.id})">
+                    <img class="card-img-top " src="${recipe.image}" alt="Card image cap" >
+                        <div class="card-body" >
                             <h5 class="card-title d-flex justify-content-center border border-dark">${recipe.title}</h5>
                 
                             <div class= "d-flex justify-content-center">
@@ -177,10 +178,34 @@ function actionFunction(xml,functionName){
 
     else if (functionName=="youtubeLink"){
         var parseJSON = JSON.parse(xml.responseText);
+        var videos='';
+        var item;
+        
+        for (item of parseJSON.items){
+            videos+=
+            `<div onclick='window.open("https://www.youtube.com/watch?v=${item.id.videoId}", "_blank")'>
+            <img src="${item.snippet.thumbnails.high.url}" class="img-fluid" alt="">
+            ${item.snippet.title}
+          </div>`
+        } 
+
+        document.getElementById('recipeVideo').innerHTML=videos;
+
     }
 
-    else if (functionName=="getSummary"){
+    else if (functionName=="getRandom"){
         var parseJSON = JSON.parse(xml.responseText);
+        let old=document.getElementById("carousellocation").innerHTML;
+        document.getElementById("carousellocation").innerHTML=old+
+        `
+        <div class="carousel-item active">
+        <img class="d-block w-100" src="${parseJSON.recipes[0].image}" onClick="recipeSet(${parseJSON.recipes[0].id})">
+        <div class="carousel-caption d-none d-md-block">
+        <h3 style = "background-color:pink; color: black; font-family: 'Itim', cursive;" >${parseJSON.recipes[0].title}</h3>
+        </div>
+        </div>`;
+
+
     }
 
     else if (functionName=="getDetail"){
@@ -196,11 +221,19 @@ function actionFunction(xml,functionName){
         };
         document.getElementById("recipeDiet").innerHTML=dietpill;
 
-        document.getElementById("recipeSummary").innerText= parseJSON.summary;
+        document.getElementById("recipeSummary").innerHTML= parseJSON.summary;
         document.getElementById("recipeServing").innerHTML= `<br>SERVES ${parseJSON.servings} ADULTS</br><br>COOKS IN ${parseJSON.readyInMinutes} MINUTES </br>`;
 
-        var nutritionBox=[];
-        let nutrition;
+        var nutritionBox={};
+        let nutritioninfo;
+        console.log(parseJSON.nutrition.nutrients);
+        for (nutritioninfo in parseJSON.nutrition.nutrients){
+            let unit=nutritioninfo.amount+nutritioninfo.unit;
+            nutritionBox[nutritioninfo.title]={units: unit , percent: nutritioninfo.percentOfDailyNeeds};
+        }
+        
+
+
 
         let ingredient;
         let ingredientList="";
@@ -214,7 +247,18 @@ function actionFunction(xml,functionName){
         for (instruction of parseJSON.analyzedInstructions[0].steps){
             instructions+=`<li>${instruction.step}</li>`;
         };
-        document.getElementById("recipeInstructions").innerHTML=ingredientList;
+        document.getElementById("recipeInstructions").innerHTML=instructions;
+
+        let youtubetitle='';
+        var charset=/^[a-zA-Z ]+$/;
+        for (var i = 0; i < parseJSON.title.length; i++) {
+
+            if ((/^[a-zA-Z ]+$/).test(parseJSON.title[i])){
+                youtubetitle=youtubetitle+parseJSON.title[i];
+            };
+          }
+        console.log(youtubetitle);
+        call_api(youtubetitle,"youtubeLink");
 
     }
 }
@@ -296,8 +340,35 @@ observer.observe(targetNode, config);
 
 //add recipeID to session memory to be later retrieved on new page
 //takes in recipe id from API, set key to recipeID, value to recipe id 
+
+
+
+function populateRecipe(){
+    var id=sessionStorage.getItem("recipeID");
+    call_api(id,"getDetail");
+  }
+
+  //for card to link to recipe.html
 function recipeSet(id){
+    console.log(id);
     sessionStorage.setItem("recipeID", id);
+    window.open("recipe.html", "_blank");
 };
 
+function populate_carousel(){
+    let recipe;
+    let carouselcontent=document.getElementById("carousellocation").innerHTML;
 
+    
+
+    for (recipe of carouseldata){
+        carouselcontent=carouselcontent+
+        `<div class="carousel-item">
+        <img class="d-block w-100" src="${recipe.image}" onclick="recipeSet(${recipe.id})">
+        <div class="carousel-caption d-none d-md-block">
+          <h3 style = "background-color:pink; color: black; font-family:itim', cursive;" >${recipe.title}</h3>
+        </div>
+      </div>`;
+    }
+    document.getElementById("carousellocation").innerHTML=carouselcontent;
+}

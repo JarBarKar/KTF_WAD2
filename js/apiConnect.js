@@ -1,6 +1,6 @@
 
 const youtubeAPI='';
-const spoonAPI='5129bf8cf4cd49748f4ac7c6ac81408f';
+const spoonAPI='';
 
 
 /*function names for call_api
@@ -30,7 +30,7 @@ function call_api(input,functionName) {
 function urlFunction(input,functionName) {
     if (functionName=="getIngredients"){
         var temporary_storage = JSON.parse(sessionStorage.getItem("storage"));
-        var base="https://api.spoonacular.com/recipes/complexSearch?addRecipeInformation=true&number=10&apiKey=";
+        var base="https://api.spoonacular.com/recipes/complexSearch?addRecipeInformation=true&number=3&apiKey=";
         var ingredients='';
         var diet='';
         var intolerances='';
@@ -77,7 +77,7 @@ function urlFunction(input,functionName) {
     }
 
     else if (functionName=="youtubeLink"){
-        var base="https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&q=asmr+chicken+rice";
+        var base="https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=3&q=asmr";
         var end="&key=";
         var recipe=input.split(" ");
         var word;
@@ -92,5 +92,10 @@ function urlFunction(input,functionName) {
         var base="https://api.spoonacular.com/recipes/";
         var end="/information?includeNutrition=true&apiKey=";
         return base+input+end+spoonAPI
+    }
+
+    else if (functionName=="getRandom"){
+        var base="https://api.spoonacular.com/recipes/random?number=1&apiKey=";
+        return base+spoonAPI
     }
 }

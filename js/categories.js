@@ -9,14 +9,6 @@ const categories = {
     intolerancesList: {list:["dairy","egg","gluten","grain","peanut","seafood","sesame","shellfish","soy","sulfite","tree nut","wheat"],name:"Allergies", imageurl: "images/intolerances.jpg",color: "pink"} 
 }
 
-const categories2 = {
-    calorieList:{list:["50 - 200", "201 - 400", "401 - 600", "601 - 800"],name:"Calories",imageurl:"images/calorie.jpg",color: "Yellow"},
-    TimingList:{list:["Under 15 minutes", "Under 30 minutes", "Under 1 hour", "Under 2 hours", "Unlimited time"],name:"Preparation Time",imageurl:"images/time.jpg",color: "Red"},
-    dietList: {list:["gluten free","ketogenic","vegetarian","lacto-vegetarian","ovo-vegetarian","vegan","pescetarian","paleo","primal","whole30"],name:"Diets",imageurl:"images/diet.jpg",color:"orange"},
-    cuisinesList: {list:["african","american","british","cajun","caribbean","chinese","eastern european","european","french","german","greek","indian","irish","italian","japanese","jewish","korean","latin american","mediterranean","mexican","middle eastern","nordic","southern","spanish","thai","vietnamese"],name: "Cuisines", imageurl: "images/cuisines.jpg",color:"grey"},
-    intolerancesList: {list:["dairy","egg","gluten","grain","peanut","seafood","sesame","shellfish","soy","sulfite","tree nut","wheat"],name:"Allergies", imageurl: "images/intolerances.jpg",color: "pink"} 
-}
-
 //Initialize temporary storage for selected tags
 sessionStorage.setItem("storage", JSON.stringify(
     {ingredient:[],
@@ -138,6 +130,7 @@ function remove_all_tags(){
 // }
 
 
+
 // Retrieve the API call and populate the cards in index.html
 //getIngredients,youtubeLink,getSummary,getDetail
 function actionFunction(xml,functionName){
@@ -155,10 +148,12 @@ function actionFunction(xml,functionName){
 
         for(recipe of info){
             var card= `
-                <div class="card col" style=" background-color: white" onclick="recipeSet(${recipe.id});window.open('recipe.html', '_blank');">
-                    <img class="card-img-top " src="${recipe.image}" alt="Card image cap">
-                        <div class="card-body">
-                            <h5 class="card-title d-flex justify-content-center border border-dark p-1">${recipe.title}</h5>
+
+            <div class="card col" style=" background-color: white" onclick="recipeSet(${recipe.id})">
+                    <img class="card-img-top " src="${recipe.image}" alt="Card image cap" >
+                        <div class="card-body" >
+                            <h5 class="card-title d-flex justify-content-center border border-dark">${recipe.title}</h5>
+
                 
                             <div class= "d-flex justify-content-center">
                                 <div class="card-text" style="display: inline;margin-right: 10px;">${recipe.readyInMinutes} min</div>
@@ -185,10 +180,34 @@ function actionFunction(xml,functionName){
 
     else if (functionName=="youtubeLink"){
         var parseJSON = JSON.parse(xml.responseText);
+        var videos='';
+        var item;
+        
+        for (item of parseJSON.items){
+            videos+=
+            `<div onclick='window.open("https://www.youtube.com/watch?v=${item.id.videoId}", "_blank")'>
+            <img src="${item.snippet.thumbnails.high.url}" class="img-fluid" alt="">
+            ${item.snippet.title}
+          </div>`
+        } 
+
+        document.getElementById('recipeVideo').innerHTML=videos;
+
     }
 
-    else if (functionName=="getSummary"){
+    else if (functionName=="getRandom"){
         var parseJSON = JSON.parse(xml.responseText);
+        let old=document.getElementById("carousellocation").innerHTML;
+        document.getElementById("carousellocation").innerHTML=old+
+        `
+        <div class="carousel-item active">
+        <img class="d-block w-100" src="${parseJSON.recipes[0].image}" onClick="recipeSet(${parseJSON.recipes[0].id})">
+        <div class="carousel-caption d-none d-md-block">
+        <h3 style = "background-color:pink; color: black; font-family: 'Itim', cursive;" >${parseJSON.recipes[0].title}</h3>
+        </div>
+        </div>`;
+
+
     }
 
     else if (functionName=="getDetail"){
@@ -204,11 +223,41 @@ function actionFunction(xml,functionName){
         };
         document.getElementById("recipeDiet").innerHTML=dietpill;
 
-        document.getElementById("recipeSummary").innerText= parseJSON.summary;
+        document.getElementById("recipeSummary").innerHTML= parseJSON.summary;
         document.getElementById("recipeServing").innerHTML= `<br>SERVES ${parseJSON.servings} ADULTS</br><br>COOKS IN ${parseJSON.readyInMinutes} MINUTES </br>`;
 
-        var nutritionBox=[];
-        let nutrition;
+        var nutritionBox={};
+        for (var x of Object.entries(parseJSON.nutrition.nutrients)){
+            var amount =  x[1].amount
+            var unit = x[1].unit
+            nutritionBox[x[1].title]= {units: amount + unit , percent: x[1].percentOfDailyNeeds};
+        }
+
+        console.log(nutritionBox)
+        
+
+        document.getElementById("nutriunit").innerHTML=`
+        <td>${nutritionBox.Calories.units}</td>
+        <td>${nutritionBox.Fat.units}</td>
+        <td>${nutritionBox."Saturated Fat".units}</td>
+        <td>${nutritionBox.Sugar.units}</td>
+        <td>${nutritionBox.Sodium.units}</td>
+        <td>${nutritionBox.Protein.units}</td>
+        <td>${nutritionBox.Carbohydrates.units}</td>
+        <td>${nutritionBox.Fiber.units}</td>`;
+
+        document.getElementById("nutripercent").innerHTML=`
+        <td>${nutritionBox.Calories.percent}</td>
+        <td>${nutritionBox.Fat.percent}</td>
+        <td>${nutritionBox."Saturated Fat".percent}</td>
+        <td>${nutritionBox.Sugar.percent}</td>
+        <td>${nutritionBox.Sodium.percent}</td>
+        <td>${nutritionBox.Protein.percent}</td>
+        <td>${nutritionBox.Carbohydrates.percent}</td>
+        <td>${nutritionBox.Fiber.percent}</td>`;
+        
+
+
 
         let ingredient;
         let ingredientList="";
@@ -222,10 +271,18 @@ function actionFunction(xml,functionName){
         for (instruction of parseJSON.analyzedInstructions[0].steps){
             instructions+=`<li>${instruction.step}</li>`;
         };
-        document.getElementById("recipeInstructions").innerHTML=ingredientList;
+        document.getElementById("recipeInstructions").innerHTML=instructions;
 
-        
-        
+        let youtubetitle='';
+        var charset=/^[a-zA-Z ]+$/;
+        for (var i = 0; i < parseJSON.title.length; i++) {
+
+            if ((/^[a-zA-Z ]+$/).test(parseJSON.title[i])){
+                youtubetitle=youtubetitle+parseJSON.title[i];
+            };
+          }
+        console.log(youtubetitle);
+        call_api(youtubetitle,"youtubeLink");
 
     }
 }
@@ -311,8 +368,35 @@ observer.observe(targetNode, config);
 
 //add recipeID to session memory to be later retrieved on new page
 //takes in recipe id from API, set key to recipeID, value to recipe id 
+
+
+
+function populateRecipe(){
+    var id=sessionStorage.getItem("recipeID");
+    call_api(id,"getDetail");
+  }
+
+  //for card to link to recipe.html
 function recipeSet(id){
+    console.log(id);
     sessionStorage.setItem("recipeID", id);
+    window.open("recipe.html", "_blank");
 };
 
+function populate_carousel(){
+    let recipe;
+    let carouselcontent=document.getElementById("carousellocation").innerHTML;
 
+    
+
+    for (recipe of carouseldata){
+        carouselcontent=carouselcontent+
+        `<div class="carousel-item">
+        <img class="d-block w-100" src="${recipe.image}" onclick="recipeSet(${recipe.id})">
+        <div class="carousel-caption d-none d-md-block">
+          <h3 style = "background-color:pink; color: black; font-family:itim', cursive;" >${recipe.title}</h3>
+        </div>
+      </div>`;
+    }
+    document.getElementById("carousellocation").innerHTML=carouselcontent;
+}

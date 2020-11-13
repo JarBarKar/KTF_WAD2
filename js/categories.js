@@ -5,7 +5,7 @@ const categories = {
     dairylist : {list:["butter","cheese","cream","milk","yogurt"],name:"Dairy",imageurl:"images/dairy.jpg",color: "beige"},
     grainlist : {list:["barley","bread","oat","pasta","rice","wheat"],name:"Grains",imageurl:"images/grains.jpg",color:"yellow"},
     dietList: {list:["gluten free","ketogenic","vegetarian","lacto-vegetarian","ovo-vegetarian","vegan","pescetarian","paleo","primal","whole30"],name:"Diets",imageurl:"images/diet.jpg",color:"orange"},
-    cuisinesList: {list:["african","american","british","cajun","caribbean","chinese","eastern european","european","french","german","greek","indian","irish","italian","japanese","jewish","korean","latin american","mediterranean","mexican","middle eastern","nordic","southern","spanish","thai","vietnamese"],name: "Cuisines", imageurl: "images/cuisines.jpg",color:"grey"},
+    cuisinesList: {list:["african","american","british","cajun","caribbean","chinese","eastern european","european","french","german","greek","indian","irish","italian","japanese","jewish","korean","latin american","mediterranean","mexican","middle eastern","nordic","southern","spanish","thai","vietnamese"],name: "Cuisines", imageurl: "images/cuisines.jpg",color:"gold"},
     intolerancesList: {list:["dairy","egg","gluten","grain","peanut","seafood","sesame","shellfish","soy","sulfite","tree nut","wheat"],name:"Allergies", imageurl: "images/intolerances.jpg",color: "pink"} 
 }
 
@@ -80,7 +80,7 @@ function populate_checkbox(selected_item){
     var type = item_list[1];
     if(document.getElementById(`${item}_checkbox`).checked){
         var search_tag = `
-        <div class='search-tag d-inline mb-2 mr-2 p-1' id='${item}_${type}'>
+        <div class='search-tag d-inline p-1' id='${item}_${type}' style = "margin: 5px">
             <span>${item}</span>
             <span class="x text-white" onclick="remove_tag('${item}_${type}')">x</span>
         </div>
@@ -230,7 +230,12 @@ function no_result_page(){
         <h1>Oops, there is no search result! Do you want to revert your changes?</h1>
         <br>
         <button type="button" class="btn btn-warning btn-outline-dark font-weight-bold btn-lg" onclick="no_result_action()">Yes! Take me back!!!</button>
+    </div> 
+
+    <div>
+    <img src = "images/dumbfuck.png" height = "400" width = "300">
     </div>
+    
     `;
 
     document.getElementById('error-msg').innerHTML = return_template;

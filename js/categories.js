@@ -147,7 +147,7 @@ function actionFunction(xml,functionName){
 
         for(recipe of info){
             var card= `
-                <div class="card col" style=" background-color: white" onclick="recipeSet(${recipe.id});window.open('recipe.html', '_blank');">
+            <div class="card col" style=" background-color: white" onclick="recipeSet(${recipe.id});window.open('recipe.html', '_blank');">
                     <img class="card-img-top " src="${recipe.image}" alt="Card image cap">
                         <div class="card-body">
                             <h5 class="card-title d-flex justify-content-center border border-dark">${recipe.title}</h5>
@@ -215,9 +215,6 @@ function actionFunction(xml,functionName){
             instructions+=`<li>${instruction.step}</li>`;
         };
         document.getElementById("recipeInstructions").innerHTML=ingredientList;
-
-        
-        
 
     }
 }

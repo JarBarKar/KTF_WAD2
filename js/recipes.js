@@ -51,23 +51,26 @@ function populate_categories()
             }
             else if(type == 'Preparation Time'){
                 if(selection=='Under 15 minutes'){
-                    time_selection = '15'
+                    time_selection = '15';
                 }
                 else if(selection=='Under 30 minutes'){
-                    time_selection = '30'
+                    time_selection = '30';
                 }
                 else if(selection=='Under 1 hour'){
-                    time_selection = '60'
+                    time_selection = '60';
+                }
+                else if(selection=='Under 2 hours'){
+                    time_selection = '120';
                 }
                 else{
-                    time_selection = 'unlimited'
+                    time_selection = 'unlimited';
                 }
                 var checkbox_str = time_selection + '_time';
             }
             if(values.name=='Calories' || values.name=='Preparation Time'){
                 string += `
-                <a class="dropdown-item" href="#" onclick="populate_radio('${checkbox_str}')">
-                    <input type="radio" id= "${selection}_checkbox" value='${checkbox_str}' name='${values.name}' onclick="">
+                <a class="dropdown-item" href="#" onclick="switch_radio('${checkbox_str}_radio')">
+                    <input type="radio" id= "${checkbox_str}_radio" value='${checkbox_str}' name='${values.name}' onclick="">
                     ${selection}
                 </a>
             `;
@@ -90,6 +93,22 @@ function populate_categories()
         document.getElementById('navbar').innerHTML = string;
     }
 }
+
+
+
+// Enable the entire section of the clickable category to check the radio
+function switch_radio(radio){
+    if(document.getElementById(radio).checked){
+        console.log(document.getElementById(radio).checked)
+        document.getElementById(radio).checked = false;
+    }
+    else{
+        console.log(document.getElementById(radio).checked)
+        document.getElementById(radio).checked = true;
+    }
+    populate_radio(document.getElementById(radio).value);
+}
+
 
 // Enable the entire section of the clickable category to check the checkbox
 function switch_checkbox(checkbox){
@@ -126,39 +145,45 @@ function populate_checkbox(selected_item){
 
 }
 
+//Populate radio buttons. This function is quite complicated as there are loops needed to iterate all current tags. 
+//Check if radio button tag (time,calories) exist. If yes, remove that tag and append the new tag at the end of the queue.
 function populate_radio(selected_item){
-
     var item = selected_item.split('_')[0];
     var type = selected_item.split('_')[1];
     var all_current_tags = document.getElementsByClassName('search-tag');
     var string = '';
-    for(var current_tag of all_current_tags){
-        if((current_tag.id).split('_')[1]==type){
-            string += '';
+    if(document.getElementById(`${selected_item}_radio`).checked){
+        for(var current_tag of all_current_tags){
+            if((current_tag.id).split('_')[1]==type){
+                string += '';
+            }
+            else{
+                console.log(current_item)
+                var current_item = current_tag['id'].split('_')[0];
+                var current_type = current_tag['id'].split('_')[1];
+                string += `
+                <div class='search-tag d-inline mb-2 mr-2 p-1' id='${current_item}_${current_type}'>
+                    ${current_tag.innerHTML}
+                </div>`;
+            }
+        }
+        if(type == 'time'){
+            var word = 'min'
         }
         else{
-
-            var current_item = current_tag['id'].split('_')[0];
-            var current_type = current_tag['id'].split('_')[1];
-            string += `
-            <div class='search-tag d-inline mb-2 mr-2 p-1' id='${current_item}_${current_type}'>
-                ${current_tag.innerHTML}
-            </div>`;
+            var word = 'calories'
         }
-    }
-    if(type == 'time'){
-        var word = 'min'
+        string += `
+        <div class='search-tag d-inline mb-2 mr-2 p-1' id='${item}_${type}'>
+            <span>${item} ${word}</span>
+            <span class="x text-white" onclick="remove_tag('${item}_${type}')">x</span>
+        </div>`;
+        document.getElementById('search_tags').innerHTML = string;
     }
     else{
-        var word = 'calories'
+        remove_tag(selected_item)
     }
-    string += `
-    <div class='search-tag d-inline mb-2 mr-2 p-1' id='${item}_${type}'>
-        <span>${item} ${word}</span>
-        <span class="x text-white" onclick="remove_tag('${item}_${type}')">x</span>
-    </div>`;
-    console.log(string)
-    document.getElementById('search_tags').innerHTML = string;
+
 }
 
 
@@ -177,7 +202,7 @@ function populate_searchbox(){
 
 
 
-// Remove selected ingredient tag
+// Remove selected tag
 function remove_tag(selected_tag){
     document.getElementById(`${selected_tag}`).remove();
     var splitted_tag = selected_tag.split('_');

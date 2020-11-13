@@ -1,3 +1,6 @@
+<?php
+    session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -79,7 +82,7 @@
                 <a class="nav-link" href="#">Browse all recipes</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="profile.html">My Profile</a>
+                <a class="nav-link" href="profile.php">My Profile</a>
             </li>
               <li class="nav-item">
                   <a class="nav-link" href="#">Settings</a>
@@ -107,14 +110,56 @@
       </div>
     </div>
 
-   <div>
-       <div class="profile">
-           <center>
-               <img src="./dashboard/ultimateweeb.PNG" alt="" class="profile_image">
-               <h4 style="font-family: 'Itim', cursive; font-size: medium;">Ultimate Weeb</h4>
-           </center>
-       </div>
-   </div>
+	<div class="container" style="font-family: 'Itim', cursive; font-size: medium;">
+		
+		<center>
+			<h1>Registration</h1>
+		</center>
+
+        <?php
+            if(isset($_SESSION["errors"])){
+                
+                echo
+                '<div class="alert alert-warning" role="alert"><center>';
+                foreach($_SESSION["errors"] as $error){
+                    echo $error.'<br>';
+                }
+                echo '</center></div>';
+
+                unset($_SESSION["errors"]);
+            }
+
+        ?>
+
+		<form method="POST" action="process_register.php">
+
+			<div class="form-group">
+				<label for="exampleInputUsername1">Username</label>
+				<input type="text" name="username" class="form-control" id="exampleInputUsername1" aria-describedby="usernameHelp">
+			</div>
+
+			<div class="form-group">
+				<label for="exampleInputEmail1">Email</label>
+				<input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+			</div>
+
+			<div class="form-group">
+				<label for="exampleInputPassword1">Password</label>
+				<input type="password" name="password1" class="form-control" id="exampleInputPassword1">
+			</div>
+
+			<div class="form-group">
+				<label for="exampleInputPassword1">Confirm Password</label>
+				<input type="password" name="password2" class="form-control" id="exampleInputPassword2">
+			</div>
+			
+			<button type="submit" class="btn btn-primary">Submit</button><br>
+
+			
+		</form>
+
+        
+    </div>
         
 
 

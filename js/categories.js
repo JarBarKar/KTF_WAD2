@@ -104,6 +104,7 @@ function populate_searchbox(){
             <span class="x text-white" onclick="remove_tag('${selected_ingredient}_query')">x</span>
         </div>
     `;
+    document.getElementById('ingredient_input').value = '';
     document.getElementById('search_tags').innerHTML += search_tag;
 }
 
@@ -188,9 +189,9 @@ function actionFunction(xml,functionName){
         
         for (item of parseJSON.items){
             videos+=
-            `<div onclick='window.open("https://www.youtube.com/watch?v=${item.id.videoId}", "_blank")'>
+            `<div style = "background-color:white" onclick='window.open("https://www.youtube.com/watch?v=${item.id.videoId}", "_blank")'>
             <img src="${item.snippet.thumbnails.high.url}" class="img-fluid" alt="">
-            ${item.snippet.title}
+            ${item.snippet.title}   
           </div>`
         } 
 
@@ -206,7 +207,7 @@ function actionFunction(xml,functionName){
         <div class="carousel-item active">
         <img class="d-block w-100" src="${parseJSON.recipes[0].image}" onClick="recipeSet(${parseJSON.recipes[0].id})">
         <div class="carousel-caption d-none d-md-block">
-        <h3 style = "background-color:pink; color: black; font-family: 'Itim', cursive;" >${parseJSON.recipes[0].title}</h3>
+        <h3 style = "border-style:solid; border-color:black; background-color:pink; color: black; font-family: 'Itim', cursive;" >${parseJSON.recipes[0].title}</h3>
         </div>
         </div>`;
 
@@ -227,7 +228,17 @@ function actionFunction(xml,functionName){
         document.getElementById("recipeDiet").innerHTML=dietpill;
 
         document.getElementById("recipeSummary").innerHTML= parseJSON.summary;
-        document.getElementById("recipeServing").innerHTML= `<br>SERVES ${parseJSON.servings} ADULTS</br><br>COOKS IN ${parseJSON.readyInMinutes} MINUTES </br>`;
+        var img_human = '';
+        var num_of_servings = parseJSON.servings;
+        var clock_pic = `<i class="fas fa-stopwatch" style="display: inline;"></i>`;
+
+        for(var i=0; i<num_of_servings; i++){
+            img_human += `
+            <img src='images/peopleicon.png' width='30' height='20'>`;
+        }
+
+        console.log(img_human)
+        document.getElementById("recipeServing").innerHTML= `Serves ${num_of_servings} adults ${img_human}<br>Cooks in ${parseJSON.readyInMinutes} minutes ${clock_pic} </br>`;
 
         var nutritionBox={};
         for (var x of Object.entries(parseJSON.nutrition.nutrients)){
@@ -242,22 +253,18 @@ function actionFunction(xml,functionName){
         document.getElementById("nutriunit").innerHTML=`
         <td>${nutritionBox.Calories.units}</td>
         <td>${nutritionBox.Fat.units}</td>
-        <td>${nutritionBox["Saturated Fat"].units}</td>
         <td>${nutritionBox.Sugar.units}</td>
         <td>${nutritionBox.Sodium.units}</td>
         <td>${nutritionBox.Protein.units}</td>
-        <td>${nutritionBox.Carbohydrates.units}</td>
-        <td>${nutritionBox.Fiber.units}</td>`;
+        <td>${nutritionBox.Carbohydrates.units}</td>`;
 
         document.getElementById("nutripercent").innerHTML=`
         <td>${nutritionBox.Calories.percent}</td>
         <td>${nutritionBox.Fat.percent}</td>
-        <td>${nutritionBox["Saturated Fat"].percent}</td>
         <td>${nutritionBox.Sugar.percent}</td>
         <td>${nutritionBox.Sodium.percent}</td>
         <td>${nutritionBox.Protein.percent}</td>
-        <td>${nutritionBox.Carbohydrates.percent}</td>
-        <td>${nutritionBox.Fiber.percent}</td>`;
+        <td>${nutritionBox.Carbohydrates.percent}</td>`;
         
 
         let ingredient;
@@ -394,7 +401,7 @@ function populate_carousel(){
         `<div class="carousel-item">
         <img class="d-block w-100" src="${recipe.image}" onclick="recipeSet(${recipe.id})">
         <div class="carousel-caption d-none d-md-block">
-          <h3 style = "background-color:pink; color: black; font-family:itim', cursive;" >${recipe.title}</h3>
+          <h3 style = "border-style:solid; border-color:black;background-color:pink; color: black; font-family:itim', cursive;"  >${recipe.title}</h3>
         </div>
       </div>`;
     }

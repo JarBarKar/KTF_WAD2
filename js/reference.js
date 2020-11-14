@@ -71,7 +71,7 @@
 
 //Problems to fixed
 // #1 confirm kenneth and sem, which dashboard to use
-// #2 Need to fix JC carousel. Does not appear
+// #2 Need to fix JC carousel. Does not appear [fixed]
 // #3 Responsiveness issue with index.html
 // #4 confirm with kenneth if need to import sql data
 

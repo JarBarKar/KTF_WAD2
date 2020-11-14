@@ -237,7 +237,6 @@ function actionFunction(xml,functionName){
             <img src='images/peopleicon.png' width='30' height='20'>`;
         }
 
-        console.log(img_human)
         document.getElementById("recipeServing").innerHTML= `Serves ${num_of_servings} adults ${img_human}<br>Cooks in ${parseJSON.readyInMinutes} minutes ${clock_pic} </br>`;
 
         var nutritionBox={};
@@ -247,7 +246,6 @@ function actionFunction(xml,functionName){
             nutritionBox[x[1].title]= {units: amount + unit , percent: x[1].percentOfDailyNeeds};
         }
 
-        console.log(nutritionBox)
         
 
         document.getElementById("nutriunit").innerHTML=`

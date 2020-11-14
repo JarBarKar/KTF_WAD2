@@ -84,3 +84,10 @@ body{
     margin-bottom: 10px;
 }
 
+.card:hover{
+    cursor: pointer;
+}
+
+.carousel:hover{
+    cursor: pointer;
+}

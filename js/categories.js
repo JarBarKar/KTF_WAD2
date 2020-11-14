@@ -145,6 +145,9 @@ function actionFunction(xml,functionName){
         if(temporary_storage.ingredient.length>1 && info.length==0){
             no_result_page()
         }
+        else{
+            document.getElementById('error-msg').innerHTML = '';
+        }
 
         for(recipe of info){
             var card= `
@@ -198,7 +201,7 @@ function actionFunction(xml,functionName){
     else if (functionName=="getRandom"){
         var parseJSON = JSON.parse(xml.responseText);
         let old=document.getElementById("carousellocation").innerHTML;
-        document.getElementById("carousellocation").innerHTML=old;
+        document.getElementById("carousellocation").innerHTML=old +
         `
         <div class="carousel-item active">
         <img class="d-block w-100" src="${parseJSON.recipes[0].image}" onClick="recipeSet(${parseJSON.recipes[0].id})">
@@ -349,7 +352,7 @@ const current_tag_nodes = function(mutationsList, observer) {
 
     //If there is no return, clear the card columns
     if(all_current_tags.ingredient.length==0 && all_current_tags.diet.length==0 && all_current_tags.intolerance.length==0 && all_current_tags.cuisine.length==0){
-        console.log('No recipes atm');
+        // console.log('No recipes atm');
         document.getElementById("card-columns").innerHTML='';
     }
     
@@ -364,11 +367,12 @@ const observer = new MutationObserver(current_tag_nodes);
 observer.observe(targetNode, config);
 //[END] Using mutation observer to gather all the ingredients and send to spoontaculous API
 
+
+
+
+
 //add recipeID to session memory to be later retrieved on new page
 //takes in recipe id from API, set key to recipeID, value to recipe id 
-
-
-
 function populateRecipe(){
     var id=sessionStorage.getItem("recipeID");
     call_api(id,"getDetail");
@@ -384,8 +388,6 @@ function recipeSet(id){
 function populate_carousel(){
     let recipe;
     let carouselcontent=document.getElementById("carousellocation").innerHTML;
-
-    
 
     for (recipe of carouseldata){
         carouselcontent=carouselcontent+

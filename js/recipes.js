@@ -17,7 +17,8 @@ sessionStorage.setItem("recipe_storage", JSON.stringify(
         cuisine:[],
         time:[],
         mincalories:[],
-        maxcalories:[]
+        maxcalories:[],
+        order: []
     }));
 
 //This function dynamically populate all the categories(meats,vegetables,etc) and also include checkbox
@@ -77,8 +78,8 @@ function populate_categories()
             }
             else{
                 string += `
-                <a class="dropdown-item" href="#" onclick="switch_checkbox('${selection}_checkbox')">
-                    <input type="checkbox" id= "${selection}_checkbox" value='${checkbox_str}' name='${values.name}' onclick="populate_checkbox('${checkbox_str}')">
+                <a class="dropdown-item" href="#" onclick="switch_checkbox('${checkbox_str}_checkbox')">
+                    <input type="checkbox" id= "${checkbox_str}_checkbox" value='${checkbox_str}' name='${values.name}' onclick="populate_checkbox('${checkbox_str}')">
                     ${selection}
                 </a>
             `;
@@ -88,7 +89,7 @@ function populate_categories()
         string += `
             </div>
         </li>
-    
+        
         `;
         document.getElementById('navbar').innerHTML = string;
     }
@@ -126,10 +127,11 @@ function switch_checkbox(checkbox){
 // If it is checked, populate the selected ingredients at the checkbox, or remove when it is unchecked.
 // item_ingredient, item_intolerance, item_cuisine
 function populate_checkbox(selected_item){
+    console.log(selected_item)
     item_list = selected_item.split('_');
     var item = item_list[0];
     var type = item_list[1];
-    if(document.getElementById(`${item}_checkbox`).checked){
+    if(document.getElementById(`${selected_item}_checkbox`).checked){
         var search_tag = `
         <div class='search-tag d-inline mb-2 mr-2 p-1' id='${item}_${type}'>
             <span>${item}</span>
@@ -148,6 +150,7 @@ function populate_checkbox(selected_item){
 //Populate radio buttons. This function is quite complicated as there are loops needed to iterate all current tags. 
 //Check if radio button tag (time,calories) exist. If yes, remove that tag and append the new tag at the end of the queue.
 function populate_radio(selected_item){
+
     var item = selected_item.split('_')[0];
     var type = selected_item.split('_')[1];
     var all_current_tags = document.getElementsByClassName('search-tag');
@@ -158,7 +161,6 @@ function populate_radio(selected_item){
                 string += '';
             }
             else{
-                console.log(current_item)
                 var current_item = current_tag['id'].split('_')[0];
                 var current_type = current_tag['id'].split('_')[1];
                 string += `
@@ -184,12 +186,14 @@ function populate_radio(selected_item){
         remove_tag(selected_item)
     }
 
+
 }
 
 
 // Retrieve value from search box
 function populate_searchbox(){
     // Remember to validate the input!!!
+
     var selected_recipe = document.getElementById('query_input').value
     var search_tag = `
         <div class='search-tag d-inline mb-2 mr-2 p-1' id='${selected_recipe}_query'>
@@ -197,6 +201,7 @@ function populate_searchbox(){
             <span class="x text-white" onclick="remove_tag('${selected_recipe}_query')">x</span>
         </div>
     `;
+    document.getElementById('query_input').value = '';
     document.getElementById('search_tags').innerHTML += search_tag;
 }
 
@@ -204,17 +209,24 @@ function populate_searchbox(){
 
 // Remove selected tag
 function remove_tag(selected_tag){
-    document.getElementById(`${selected_tag}`).remove();
+    document.getElementById(selected_tag).remove();
     var splitted_tag = selected_tag.split('_');
     var tag_name = splitted_tag[0];
-    var uncheck_ele = `${tag_name}_checkbox`;
+    var tag_type = splitted_tag[1];
+    console.log(tag_name)
+    if(tag_type == 'calories' || tag_type=='time'){
+        var uncheck_ele = `${tag_name}_${tag_type}_radio`;
+    }
+    else{
+        var uncheck_ele = `${tag_name}_${tag_type}_checkbox`;
+    }
     document.getElementById(uncheck_ele).checked= false;
 }
 
 // Remove all selected ingredient tags
-function remove_all_tags(){
-    document.getElementById('search_tags').innerHTML = '';
-}
+// function remove_all_tags(){
+//     document.getElementById('search_tags').innerHTML = '';
+// }
 
 
 
@@ -228,11 +240,16 @@ function actionFunction(xml,functionName){
         var base='';
         var recipe;
         var info = parseJSON.results;
-        console.log(info)
+        // console.log(info)
         var temporary_storage = JSON.parse(sessionStorage.getItem("recipe_storage"));
-        console.log(temporary_storage)
-        if(temporary_storage.query.length>1 && info.length==0){
+        // console.log(temporary_storage)
+        if((temporary_storage.query.length>1 || temporary_storage.diet.length>1 || 
+        temporary_storage.intolerance.length>1 || temporary_storage.cuisine.length>1 || temporary_storage.time.length>1 || temporary_storage.mincalories.length>1 || temporary_storage.mincalories.length>1)
+        && info.length==0){
             no_result_page()
+        }
+        else{
+            document.getElementById('error-msg').innerHTML = '';
         }
 
         for(recipe of info){
@@ -261,6 +278,32 @@ function actionFunction(xml,functionName){
 
     else if (functionName=="youtubeLink"){
         var parseJSON = JSON.parse(xml.responseText);
+        var videos='';
+        var item;
+        
+        for (item of parseJSON.items){
+            videos+=
+            `<div onclick='window.open("https://www.youtube.com/watch?v=${item.id.videoId}", "_blank")'>
+            <img src="${item.snippet.thumbnails.high.url}" class="img-fluid" alt="">
+            ${item.snippet.title}
+          </div>`
+        } 
+
+        document.getElementById('recipeVideo').innerHTML=videos;
+
+    }
+
+    else if (functionName=="getRandom"){
+        var parseJSON = JSON.parse(xml.responseText);
+        let old=document.getElementById("carousellocation").innerHTML;
+        document.getElementById("carousellocation").innerHTML=old +
+        `
+        <div class="carousel-item active">
+        <img class="d-block w-100" src="${parseJSON.recipes[0].image}" onClick="recipeSet(${parseJSON.recipes[0].id})">
+        <div class="carousel-caption d-none d-md-block">
+        <h3 style = "background-color:pink; color: black; font-family: 'Itim', cursive;" >${parseJSON.recipes[0].title}</h3>
+        </div>
+        </div>`;
     }
 
     else if (functionName=="getSummary"){
@@ -280,17 +323,43 @@ function actionFunction(xml,functionName){
         };
         document.getElementById("recipeDiet").innerHTML=dietpill;
 
-        document.getElementById("recipeSummary").innerText= parseJSON.summary;
+        document.getElementById("recipeSummary").innerHTML= parseJSON.summary;
         document.getElementById("recipeServing").innerHTML= `<br>SERVES ${parseJSON.servings} ADULTS</br><br>COOKS IN ${parseJSON.readyInMinutes} MINUTES </br>`;
 
-        var nutritionBox=[];
-        let nutrition;
+        var nutritionBox={};
+        for (var x of Object.entries(parseJSON.nutrition.nutrients)){
+            var amount =  x[1].amount
+            var unit = x[1].unit
+            nutritionBox[x[1].title]= {units: amount + unit , percent: x[1].percentOfDailyNeeds};
+        }
+
+        document.getElementById("nutriunit").innerHTML=`
+        <td>${nutritionBox.Calories.units}</td>
+        <td>${nutritionBox.Fat.units}</td>
+        <td>${nutritionBox["Saturated Fat"].units}</td>
+        <td>${nutritionBox.Sugar.units}</td>
+        <td>${nutritionBox.Sodium.units}</td>
+        <td>${nutritionBox.Protein.units}</td>
+        <td>${nutritionBox.Carbohydrates.units}</td>
+        <td>${nutritionBox.Fiber.units}</td>`;
+
+        document.getElementById("nutripercent").innerHTML=`
+        <td>${nutritionBox.Calories.percent}</td>
+        <td>${nutritionBox.Fat.percent}</td>
+        <td>${nutritionBox["Saturated Fat"].percent}</td>
+        <td>${nutritionBox.Sugar.percent}</td>
+        <td>${nutritionBox.Sodium.percent}</td>
+        <td>${nutritionBox.Protein.percent}</td>
+        <td>${nutritionBox.Carbohydrates.percent}</td>
+        <td>${nutritionBox.Fiber.percent}</td>`;
+        
 
         let ingredient;
         let ingredientList="";
         for (ingredient of parseJSON.extendedIngredients){
             ingredientList+=`<li>${ingredient.name}: ${ingredient.amount} ${ingredient.unit}</li>`;
         };
+
         document.getElementById("recipeIngredients").innerHTML=ingredientList;
 
         let instruction;
@@ -298,9 +367,23 @@ function actionFunction(xml,functionName){
         for (instruction of parseJSON.analyzedInstructions[0].steps){
             instructions+=`<li>${instruction.step}</li>`;
         };
-        document.getElementById("recipeInstructions").innerHTML=ingredientList;
+        
+        document.getElementById("recipeInstructions").innerHTML=instructions;
+
+        let youtubetitle='';
+        var charset=/^[a-zA-Z ]+$/;
+        for (var i = 0; i < parseJSON.title.length; i++) {
+
+            if ((/^[a-zA-Z ]+$/).test(parseJSON.title[i])){
+                youtubetitle=youtubetitle+parseJSON.title[i];
+            };
+            }
+        console.log(youtubetitle);
+        call_api(youtubetitle,"youtubeLink");
+
     }
 }
+
 
 //Page to display when there is no result
 function no_result_page(){
@@ -320,9 +403,34 @@ function no_result_page(){
 function no_result_action(){
     //Once clicked, call the temporary stack and pop the latest element
     var temporary_storage = JSON.parse(sessionStorage.getItem("recipe_storage"));
-    var removed_tag = temporary_storage.ingredient.pop();
+    var temp_array = temporary_storage.order;
+    console.log(temporary_storage)
+    var removed_tag = temp_array.pop();
+    // console.log(removed_tag)
     document.getElementById('error-msg').innerHTML = '';
-    remove_tag(`${removed_tag}_ingredient`);
+    remove_tag(removed_tag);
+    var temporary_storage = {
+        query: '',
+        diet:[],
+        intolerance:[],
+        cuisine:[],
+        time:[],
+        mincalories:[],
+        maxcalories:[],
+        order: []
+    };
+    for(var current_tag of temp_array){
+        var splitted_tag = current_tag.split('_');
+        var tag_name = splitted_tag[0];
+        var tag_type = splitted_tag[1];
+        if(tag_type=='query'){
+            temporary_storage[tag_type] = tag_name
+        }
+        else{
+            temporary_storage[tag_type].push(tag_name);
+        }
+    }
+    console.log(temporary_storage)
     //Then call the api again with the existing stack
     sessionStorage.setItem("recipe_storage",JSON.stringify(temporary_storage));
     call_api(temporary_storage,"getRecipe");
@@ -344,7 +452,8 @@ const current_tag_nodes = function(mutationsList, observer) {
         cuisine:[],
         time:[],
         mincalories:[],
-        maxcalories:[]
+        maxcalories:[],
+        order: []
     }
     var temporary_storage = JSON.parse(sessionStorage.getItem("recipe_storage"));
     temporary_storage = {
@@ -354,18 +463,19 @@ const current_tag_nodes = function(mutationsList, observer) {
         cuisine:[],
         time:[],
         mincalories:[],
-        maxcalories:[]
+        maxcalories:[],
+        order: []
     };
-    for(tag_node of tag_nodes){
 
+    for(tag_node of tag_nodes){
         var splitted_tag = tag_node.id.split('_');
         var tag_name = splitted_tag[0];
         var tag_type = splitted_tag[1];
-        console.log(tag_type)
         //Push into temporary storage to simulate stack operation later on
         if(tag_type=='query'){
             all_current_tags[tag_type] = tag_name
             temporary_storage[tag_type] = tag_name;
+            temporary_storage['order'].push(tag_name+'_'+tag_type)
         }
         else if(tag_type=='calories'){
             var splitted_calories = tag_name.split(' - ');
@@ -375,22 +485,25 @@ const current_tag_nodes = function(mutationsList, observer) {
             all_current_tags['maxcalories'].push(max_calories);
             temporary_storage['mincalories'].push(min_calories);
             temporary_storage['maxcalories'].push(max_calories);
+            temporary_storage['order'].push(tag_name+'_'+tag_type);
         }
 
         else{
             all_current_tags[tag_type].push(tag_name);
             temporary_storage[tag_type].push(tag_name);
+            temporary_storage['order'].push(tag_name+'_'+tag_type);
         }
 
 
     }
+    console.log(temporary_storage)
     sessionStorage.setItem("recipe_storage", JSON.stringify(temporary_storage));
     // console.log(all_current_tags)
 
 
     //If there is no return, clear the card columns
     if(all_current_tags.query.length==0 && all_current_tags.diet.length==0 && all_current_tags.intolerance.length==0 && all_current_tags.cuisine.length==0 && all_current_tags.time.length==0 && all_current_tags.mincalories.length==0 && all_current_tags.maxcalories.length==0){
-        console.log('No recipes atm');
+        // console.log('No recipes atm');
         document.getElementById("card-columns").innerHTML='';
     }
     
@@ -409,6 +522,24 @@ observer.observe(targetNode, config);
 //takes in recipe id from API, set key to recipeID, value to recipe id 
 function recipeSet(id){
     sessionStorage.setItem("recipeID", id);
+    window.open("recipe.html", "_blank");
 };
 
+
+//Populate carousel
+function populate_carousel(){
+    let recipe;
+    let carouselcontent=document.getElementById("carousellocation").innerHTML;
+
+    for (recipe of carouseldata){
+        carouselcontent=carouselcontent+
+        `<div class="carousel-item">
+        <img class="d-block w-100" src="${recipe.image}" onclick="recipeSet(${recipe.id})">
+        <div class="carousel-caption d-none d-md-block">
+          <h3 style = "background-color:pink; color: black; font-family:itim', cursive;" >${recipe.title}</h3>
+        </div>
+      </div>`;
+    }
+    document.getElementById("carousellocation").innerHTML=carouselcontent;
+}
 

@@ -1,6 +1,6 @@
 
 const youtubeAPI='';
-const spoonAPI='ec2e7f33adde4f219a4d83a71c6460e5';
+const spoonAPI='aace882fda334776bbfee6f21ee6a43e';
 
 
 
@@ -110,7 +110,6 @@ function urlFunction(input,functionName) {
         var time='';
         var mincalories='';
         var maxcalories='';
-        console.log(input)
 
         if(input.query.length>0){
             query = '&query=' + input.query;

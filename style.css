@@ -77,6 +77,22 @@ body{
     margin-top: 0;
 }
 
+
+.footer {
+    position: relative;
+    top: 30px;
+    left: 0;
+    bottom: 0;
+    right :0;
+    width: 100%;
+    background-color: #FF69B4;
+    color: white;
+    text-align: center;
+    font-family: Arial; 
+    font-size: small;
+  }
+
+
 .profile .profile_image{
     width: 100px;
     height: 100px;
@@ -91,3 +107,4 @@ body{
 .carousel:hover{
     cursor: pointer;
 }
+

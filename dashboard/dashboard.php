@@ -1,3 +1,7 @@
+<?php
+    require_once "../login_system/autoload.php";
+    session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,7 +23,7 @@
             <h3>Kyung <span>TauFoo</span></h3>
         </div>
         <div class="right_area">
-            <a href="#" class="logout_btn">Logout</a>
+            <a href="../login_system/logout.php" class="logout_btn">Logout</a>
         </div>
     </header>
     <!--header area end-->
@@ -40,7 +44,8 @@
     <!--side bar end-->
 
     <div class="content">
-
+        
     </div>
 </body>
 </html>
+

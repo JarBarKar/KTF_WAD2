@@ -197,7 +197,7 @@ function populate_searchbox(){
     var selected_recipe = document.getElementById('query_input').value
     var search_tag = `
         <div class='search-tag d-inline mb-2 mr-2 p-1' id='${selected_recipe}_query'>
-            <span>Recipe: ${selected_recipe}</span>
+            <span>Name: ${selected_recipe}</span>
             <span class="x text-white" onclick="remove_tag('${selected_recipe}_query')">x</span>
         </div>
     `;

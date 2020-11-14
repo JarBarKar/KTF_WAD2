@@ -99,9 +99,9 @@ function populate_searchbox(){
     // Remember to validate the input!!!
     var selected_ingredient = document.getElementById('ingredient_input').value
     var search_tag = `
-        <div class='search-tag d-inline mb-2 mr-2 p-1' id='${selected_ingredient}_query'>
+        <div class='search-tag d-inline mb-2 mr-2 p-1' id='${selected_ingredient}_ingredient'>
             <span>${selected_ingredient}</span>
-            <span class="x text-white" onclick="remove_tag('${selected_ingredient}_query')">x</span>
+            <span class="x text-white" onclick="remove_tag('${selected_ingredient}_ingredient')">x</span>
         </div>
     `;
     document.getElementById('ingredient_input').value = '';
@@ -343,7 +343,9 @@ const current_tag_nodes = function(mutationsList, observer) {
         diet:[],
         intolerance:[],
         cuisine:[]};
+
     for(tag_node of tag_nodes){
+        console.log(tag_node.id);
         var splitted_tag = tag_node.id.split('_');
         var tag_name = splitted_tag[0];
         var tag_type = splitted_tag[1];
@@ -352,7 +354,7 @@ const current_tag_nodes = function(mutationsList, observer) {
         temporary_storage[tag_type].push(tag_name);
     }
     sessionStorage.setItem("storage", JSON.stringify(temporary_storage));
-    console.log(all_current_tags)
+    // console.log(all_current_tags)
 
 
     //If there is no return, clear the card columns

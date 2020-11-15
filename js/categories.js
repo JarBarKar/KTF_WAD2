@@ -294,6 +294,34 @@ function actionFunction(xml,functionName){
         call_api(youtubetitle,"youtubeLink");
 
     }
+
+    else if (functionName=='getFavourite'){
+        var parseJSON = JSON.parse(xml.responseText);
+        var cardtext="";
+        let recipe;
+        for (recipe of parseJSON){
+            cardtext=cardtext+`
+            <div class="card col" style=" background-color: white" onclick="recipeSet(${recipe.id});window.open('recipe.html', '_blank');">
+                <img class="card-img-top " src="${recipe.image}" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title d-flex justify-content-center border border-dark p-1">${recipe.title}</h5>
+            
+                        <div class= "d-flex justify-content-center">
+                            <div class="card-text" style="display: inline;margin-right: 10px;">${recipe.readyInMinutes} min</div>
+                            <i class="fas fa-stopwatch" style="display: inline;"></i>
+                        </div>
+                
+                        <div class= "d-flex justify-content-center">
+                            <div class="card-text" style="display: inline; margin-right: 10px;">${recipe.spoonacularScore} / 100</div>
+                            <i class="fas fa-star" style="display: inline;"></i>
+                        </div>
+                    </div>
+            </div>
+        `;
+        }
+        document.getElementById("card-columns").innerHTML=cardtext;
+    }
+
 }
 
 //Page to display when there is no result
@@ -434,3 +462,4 @@ function recipeImageRandom(){
     let rannum=Math.floor(Math.random() * imagecount);
     document.getElementById("recipeFillerImage").setAttribute("src","images/random/"+randomImgUrl[rannum]);
 }
+

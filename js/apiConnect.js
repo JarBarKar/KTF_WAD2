@@ -1,5 +1,7 @@
+
 const youtubeAPI='';
 const spoonAPI='0331861a99f94a42afa634825d08889e';
+
 
 
 
@@ -99,6 +101,7 @@ function urlFunction(input,functionName) {
         var base="https://api.spoonacular.com/recipes/random?number=1&apiKey=";
         return base+spoonAPI
     }
+
     else if(functionName=="getRecipe"){
         var temporary_storage = JSON.parse(sessionStorage.getItem("recipe_storage"));
         var base="https://api.spoonacular.com/recipes/complexSearch?addRecipeInformation=true&number=10&apiKey=";
@@ -155,6 +158,18 @@ function urlFunction(input,functionName) {
         var final_url = base+spoonAPI+query+diet+intolerances+cuisines+time+mincalories+maxcalories;
         console.log(final_url)
         return final_url
-
+    }
+    else if(functionName=="getFavourite"){
+        let base="https://api.spoonacular.com/recipes/informationBulk?ids=";
+        let end='apiKey='
+        for (var index = 0; index<input.length; index++){
+            if (index==0){
+                base=base+input[index];
+            }
+            else {
+                base=base+','+input[index];
+            }
+        }
+        return base+end+spoonAPI
     }
 }

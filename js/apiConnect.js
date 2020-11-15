@@ -1,6 +1,6 @@
 
-const youtubeAPI='AIzaSyD9NqRiVfxb4NsnsfXrWht1MZZ6S2SXnDo';
-const spoonAPI='900acd2d255c4a5b9458546a2a446453';
+const youtubeAPI='';
+const spoonAPI='';
 
 
 

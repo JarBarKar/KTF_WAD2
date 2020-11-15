@@ -108,6 +108,11 @@
                       </div>';
 
                     }
+                    else{
+                        $_SESSION["error"] = "Wrong password";
+                        header('Location: profile.php');
+                        
+                    }
                     echo '
                     <center><a href="index.php" type="button" class="btn btn-warning">Click here to start searching!</a></center>';
             ?>

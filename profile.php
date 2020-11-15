@@ -19,7 +19,7 @@
 </head>
 <body>
 
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 
@@ -88,9 +88,8 @@
 			<h1>Login</h1>
 		</center>
 
-		<?php
-            if(isset($_SESSION["errors"])){
-                
+        <?php
+            if(isset($_SESSION["errors"])){  
                 echo
                 '<div class="alert alert-warning" role="alert"><center>';
                 foreach($_SESSION["errors"] as $error){
@@ -99,6 +98,10 @@
                 echo '</center></div>';
 
                 unset($_SESSION["errors"]);
+            }
+            elseif(isset($_SESSION["error"])){
+                echo
+                '<div class="alert alert-warning" role="alert"><center>'.$_SESSION["error"].'</center></div>';
             }
 
         ?>
@@ -113,7 +116,7 @@
 				<input type="password" name="password" class="form-control" id="exampleInputPassword1">
 			</div>
 			
-			<button type="submit" class="btn btn-warning">Submit</button><br>
+			<button type="submit" class="btn btn-warning">Log in</button><br>
 
 			<small>Please click <a href="register.php" style="color:#ff69b4">here</a> to create an account!</small>
 		</form>
@@ -122,7 +125,7 @@
     <!--Footer-->
     <div class="footer" style='bottom:0;'>
         <img src = "images/ktf_full_logo.png" width = 115 height = 40 style="margin-top:5px;">
-        &nbsp;&nbsp;&nbsp;&nbsp;Privacy Policy&nbsp;&nbsp;&nbsp;&nbsp;Sitemap &nbsp;&nbsp;&nbsp;&nbsp;© 2011 Group 29 All Rights Reserved&nbsp;&nbsp;&nbsp;&nbsp;80 Stamford Rd, Singapore 178902
+        &nbsp;&nbsp;&nbsp;&nbsp;Privacy Policy&nbsp;&nbsp;&nbsp;&nbsp;Sitemap &nbsp;&nbsp;&nbsp;&nbsp;© 2020 Group 29 All Rights Reserved&nbsp;&nbsp;&nbsp;&nbsp;80 Stamford Rd, Singapore 178902
         <img src = "images/soma.png" width = 50 height = 50>
     </div>
         

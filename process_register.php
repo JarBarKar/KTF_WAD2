@@ -98,7 +98,7 @@
 
 </head>
 
-<body id="app" onload='populate_categories()'>
+<body id="app">
     <!--Navbar-->
     <div id="sticky_top" style='position: sticky'>
       <nav class="navbar navbar-expand-lg navbar-light row" style ="background-color: #FF69B4">
@@ -109,23 +109,6 @@
             <span class="navbar-toggler-icon"></span>
           </button>
           
-          <!--Search Bar-->
-          <div class="container row" style="width:40%; margin-left : 80px">
-              <div class="row">
-                <form class="form-inline col-12 mb-2"  id='search_box'>
-                    <input id='ingredient_input' class="form-control mr-2 typeahead" type="search" placeholder="Find an Ingredient" aria-label="Search" style=" font-family: 'Itim',cursive;">
-                    <button class="btn btn-sm btn-outline-dark my-2 my-sm-0" type="submit"  onClick="populate_searchbox();return false">Add</button>
-                  </form>
-        
-                  <!--Selected ingredients-->  
-                  <div class = "d-inline col-12" style="word-wrap:break-word">
-                      <div id="search_tags" style="font-family: 'Itim',cursive">
-        
-                      </div>
-                  </div>
-              </div>
-          </div>
-
 
           <!--Right navigation bar-->
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -137,12 +120,6 @@
                 <a class="nav-link" href="allrecipe.php">Browse all recipes</a>
               </li>
               <?php
-                if(!isset($_SESSION['user'])){
-                    echo '
-                    <li class="nav-item">
-                        <a class="nav-link" href="profile.php">Sign up/Sign in</a>
-                    </li>';
-                }
                 if(isset($_SESSION['user'])){
                     echo '
                     <li class="nav-item">
@@ -184,13 +161,16 @@
 		        $dao = new UserDAO();
 		        $status = $dao->add($user);
 				if($status){
-		        	echo "<center><h1>Successfully registered!</h1></center>";
+                    echo "<center><h1>Successfully registered!</h1></center>
+                    <center><a href='profile.php' type='button' class='btn btn-warning'>Click here to log in!</a></center>
+                    ";
 				}
 				else{
 					echo "<center><h1>Something went wrong. Please try again!</h1></center>";
 				}
 		?>
     </div>
+
         
 
 

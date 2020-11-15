@@ -3,7 +3,7 @@ function passrecipe(){
     // console.log(recipe);
     const xhr = new XMLHttpRequest();
     xhr.onload = function(){
-        console.log("Succesful")
+        console.log("Successful")
     }
     xhr.open('POST','login_system/recipe.php')
     xhr.setRequestHeader('Content-type','application/x-www-form-urlencoded');

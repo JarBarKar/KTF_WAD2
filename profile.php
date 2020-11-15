@@ -143,6 +143,14 @@
 			<small>Please click <a href="register.php" style="color:yellow">here</a> to create an account!</small>
 		</form>
     </div>
+
+    <div>
+    <div class = "row">
+        <div class = "card-columns" id = "card-columns"  style=" width:80%; margin: auto;margin-top: 30px;">
+
+        </div>
+    </div>
+    </div>
         
 
 

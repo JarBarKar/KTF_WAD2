@@ -219,6 +219,7 @@ function actionFunction(xml,functionName){
         document.getElementById("recipeImage").setAttribute("src",parseJSON.image);
         document.getElementById("recipeTitle").innerText= parseJSON.title;
 
+
         let dietpill="";
         let diets=parseJSON.diets;
         let diet;
@@ -289,7 +290,7 @@ function actionFunction(xml,functionName){
                 youtubetitle=youtubetitle+parseJSON.title[i];
             };
           }
-        console.log(youtubetitle);
+        // console.log(youtubetitle);
         call_api(youtubetitle,"youtubeLink");
 
     }
@@ -407,3 +408,23 @@ function populate_carousel(){
     }
     document.getElementById("carousellocation").innerHTML=carouselcontent;
 }
+
+
+//Pass recipe to PHP for storage
+// function pass_recipe(){
+    // var recipe_name = document.getElementById('recipeTitle');
+    // console.log(recipe_name)
+    // document.getElementById('recipe').value = recipe_name;
+
+
+    // console.log(recipe_name);
+    // $.ajax({
+    //     url: 'integration.php', 
+    //     method: "post",
+    //     data: {recipe: JSON.stringify(recipe_obj)},    
+    //     success: function(data){
+    //         console.log("successfully");
+    //     }
+    // }); 
+
+// }

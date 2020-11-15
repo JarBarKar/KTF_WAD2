@@ -254,7 +254,7 @@ function actionFunction(xml,functionName){
 
         for(recipe of info){
             var card= `
-                <div class="card col" style=" background-color: white" onclick="recipeSet(${recipe.id});window.open('recipe.html', '_blank');">
+                <div class="card col" style=" background-color: white" onclick="recipeSet(${recipe.id});window.open('recipe.php', '_blank');">
                     <img class="card-img-top " src="${recipe.image}" alt="Card image cap">
                         <div class="card-body">
                             <h5 class="card-title d-flex justify-content-center border border-dark p-1">${recipe.title}</h5>
@@ -395,7 +395,7 @@ function actionFunction(xml,functionName){
         let recipe;
         for (recipe of parseJSON){
             cardtext=cardtext+`
-            <div class="card col" style=" background-color: white" onclick="recipeSet(${recipe.id});window.open('recipe.html', '_blank');">
+            <div class="card col" style=" background-color: white" onclick="recipeSet(${recipe.id});window.open('recipe.php', '_blank');">
                 <img class="card-img-top " src="${recipe.image}" alt="Card image cap">
                     <div class="card-body">
                         <h5 class="card-title d-flex justify-content-center border border-dark p-1">${recipe.title}</h5>
@@ -555,7 +555,7 @@ observer.observe(targetNode, config);
 //takes in recipe id from API, set key to recipeID, value to recipe id 
 function recipeSet(id){
     sessionStorage.setItem("recipeID", id);
-    window.open("recipe.html", "_blank");
+    window.open("recipe.php", "_blank");
 };
 
 

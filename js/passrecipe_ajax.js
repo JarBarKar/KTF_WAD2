@@ -1,11 +1,12 @@
 function passrecipe(){
     var recipe = document.getElementById("recipeID").value;
+    // console.log(recipe);
     const xhr = new XMLHttpRequest();
     xhr.onload = function(){
-        console.log(recipe + "Succesful")
-
+        console.log("Succesful")
     }
-    xhr.open('POST','dashboard/recipeToSQL.php')
+    xhr.open('POST','login_system/recipe.php')
     xhr.setRequestHeader('Content-type','application/x-www-form-urlencoded');
     xhr.send("recipe=" + recipe);
 }
+

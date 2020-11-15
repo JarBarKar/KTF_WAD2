@@ -35,10 +35,10 @@
 
 <body style = "background-color: black"  onload="populateRecipe();recipeImageRandom()">
     <!--Navbar-->
-
+    <?php session_start()?>
     <div id="sticky_top" style='position: sticky'>
       <nav class="navbar navbar-expand-lg navbar-light row" style ="background-color: #FF69B4; position: sticky">
-          <a class="navbar-brand" href="index.html">
+          <a class="navbar-brand" href="index.php">
               <img src="images/small ktf logo.png" width="85" height="40" alt="" loading="lazy" style = "margin-left:100px">
           </a>
           <!--Save recipe-->
@@ -46,7 +46,12 @@
             <input type="hidden" name="recipe" id="recipe" value="">
             <input type="submit" value="Save this recipe!">
           </form> -->
-          <button onclick='passrecipe()'>Send Recipe</button>
+          <?php
+            if(isset($_SESSION['user'])){
+                echo "
+                <center><button id='save_button' type='button' style = 'text-align:center;' class='mx-auto btn btn-warning' onclick='passrecipe(); switch_save_click()'>Save this Recipe!</button></center>";
+            } 
+          ?>
           <!--End of Save recipe-->
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -57,14 +62,28 @@
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ml-auto" style = "margin-right: 0px; font-family: 'Itim', cursive; font-size: large;">
               <li class="nav-item active" >
-                <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="index.php">Home <span class="sr-only">(current)</span></a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="allrecipe.html">Browse all recipes</a>
+                <a class="nav-link" href="allrecipe.php">Browse all recipes</a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="profile.php">My Profile</a>
-              </li>
+              <?php
+                if(!isset($_SESSION['user'])){
+                    echo '
+                    <li class="nav-item">
+                        <a class="nav-link" href="profile.php">Sign up/Sign in</a>
+                    </li>';
+                }
+                if(isset($_SESSION['user'])){
+                    echo '
+                    <li class="nav-item">
+                        <a class="nav-link" href="dashboard/dashboard.php">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="login_system/logout.php">Sign Out</a>
+                    </li>';
+                }
+              ?>
             </ul>
           </div>
       </nav>
@@ -79,13 +98,13 @@
         <div class="container-fluid row">
 
             <!-- image -->
-          <div class="container col-5">
+          <div class="container col-12 col-sm-5 col-lg-4">
             <img id="recipeImage" src='https://spoonacular.com/recipeImages/955152-556x370.jpg' class="img-fluid" alt="" style = "border-style: solid; border-color:black;">
             <img id="recipeFillerImage" src="images/random/sakura.png" class="img-fluid d-none d-sm-none d-md-block" alt="" height='10'>
           </div>
 
           <!-- summary -->
-          <div class="container col-12 col-sm-5 col-lg-4">
+          <div class="container col-12 col-sm-7 col-lg-8">
             <span id='recipeID' value=''></span>
             <h1 id="recipeTitle" class = "bg-warning" style = "border-style: solid; border-color:black;">Recipe title</h1>
             <div id="recipeDiet">
@@ -181,7 +200,7 @@
 
 
 
-
+<script src="js/random.js"></script>
 <script src="js/apiConnect.js"></script>
 <script src="js/categories.js"></script>
 <script src="js/dropdown.js"></script>

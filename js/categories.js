@@ -154,7 +154,7 @@ function actionFunction(xml,functionName){
             var card= `
 
             <div class="card col" style=" background-color: white" onclick="recipeSet(${recipe.id})">
-                    <img class="card-img-top " src="${recipe.image}" alt="Card image cap" >
+                    <img class="card-img-top " src="${recipe.image}" alt="Card image cap">
                         <div class="card-body" >
                             <h5 class="card-title d-flex justify-content-center border border-dark">${recipe.title}</h5>
 
@@ -301,8 +301,9 @@ function actionFunction(xml,functionName){
         let recipe;
         for (recipe of parseJSON){
             cardtext=cardtext+`
-            <div class="card col" style=" background-color: white" onclick="recipeSet(${recipe.id});window.open('recipe.html', '_blank');">
-                <img class="card-img-top " src="${recipe.image}" alt="Card image cap">
+            <div class="card col favourite-card" style=" background-color: white" onclick="dashboard_recipeSet(${recipe.id})">
+            
+                <img class="card-img-top" src="${recipe.image}" alt="Card image cap">
                     <div class="card-body">
                         <h5 class="card-title d-flex justify-content-center border border-dark p-1">${recipe.title}</h5>
             
@@ -315,11 +316,13 @@ function actionFunction(xml,functionName){
                             <div class="card-text" style="display: inline; margin-right: 10px;">${recipe.spoonacularScore} / 100</div>
                             <i class="fas fa-star" style="display: inline;"></i>
                         </div>
+
                     </div>
             </div>
         `;
         }
-        document.getElementById("card-columns").innerHTML=cardtext;
+
+        document.getElementById("dashboard-card-columns").innerHTML=cardtext;
     }
 
 }
@@ -418,8 +421,13 @@ function populateRecipe(){
 function recipeSet(id){
     console.log(id);
     sessionStorage.setItem("recipeID", id);
-    window.open("recipe.html", "_blank");
+    window.open("recipe.php", "_blank");
 };
+
+function dashboard_recipeSet(id){
+    sessionStorage.setItem("recipeID", id);
+    window.open("../recipe.php", "_blank");
+}
 
 function populate_carousel(){
     let recipe;
@@ -463,3 +471,9 @@ function recipeImageRandom(){
     document.getElementById("recipeFillerImage").setAttribute("src","images/random/"+randomImgUrl[rannum]);
 }
 
+
+function switch_save_click(){
+    document.getElementById('save_button').disabled=true;
+    document.getElementById('save_button').innerHTML='Recipe Saved!';
+
+}

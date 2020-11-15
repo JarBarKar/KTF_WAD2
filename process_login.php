@@ -1,55 +1,3 @@
-<?php
-    require_once "login_system/autoload.php";
-    session_start();
-
-    $username = $_POST["username"];
-    $password = $_POST["password"];
-    $errors = array();
-    $dao = new UserDAO();
-
-    if (empty($username)){
-        array_push($errors, "Username is required.");
-    }
-
-    if (empty($password)){
-        array_push($errors, "Password is required.");
-    }
-
-    $user_exist = $dao->usernameExist($username);
-    
-    if (!$user_exist && !empty($username)){
-        array_push($errors, "User is not registered!");
-    }
-
-    if (!empty($errors)){
-        $_SESSION["errors"] = $errors;
-        header("Location: profile.php");
-    }
-
-    // if (empty($errors)){
-    //     $hashed = $dao->getHashedPassword($username);
-    //     $verified = password_verify($password, $hashed);
-
-    //     if($verified) {
-    //         $_SESSION["user"] = $username;
-    //         echo "Successful Login";
-    //     }
-    //     else {
-    //         $_SESSION["error"] = "Failed Login";
-    //         header("Location: login.php?username=$username");
-    //     }
-
-    // }
-    // else{
-    //     foreach($errors as $error){
-    //         echo $error. "<br>";
-    //     }
-    // }
-    
-?>
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -94,70 +42,56 @@
 
 <body id="app" onload='populate_categories()'>
     <!--Navbar-->
+    <?php
+    require_once "login_system/autoload.php";
+    session_start();
+
+    $username = $_POST["username"];
+    $password = $_POST["password"];
+    $errors = array();
+    $dao = new UserDAO();
+
+    if (empty($username)){
+        array_push($errors, "Username is required.");
+    }
+
+    if (empty($password)){
+        array_push($errors, "Password is required.");
+    }
+
+    $user_exist = $dao->usernameExist($username);
+    
+    if (!$user_exist && !empty($username)){
+        array_push($errors, "User is not registered!");
+    }
+
+    if (!empty($errors)){
+        $_SESSION["errors"] = $errors;
+        header("Location: profile.php");
+    }
+    
+?>
     <div id="sticky_top" style='position: sticky'>
       <nav class="navbar navbar-expand-lg navbar-light row" style ="background-color: #FF69B4">
-          <a class="navbar-brand" href="index.html">
+          <a class="navbar-brand" href="index.php">
               <img src="images/small ktf logo.png" width="85" height="40" alt="" loading="lazy" style = "margin-left:100px">
           </a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
           
-          <!--Search Bar-->
-          <div class="container row" style="width:40%; margin-left : 80px">
-              <div class="row">
-                <form class="form-inline col-12 mb-2"  id='search_box'>
-                    <input id='ingredient_input' class="form-control mr-2 typeahead" type="search" placeholder="Find an Ingredient" aria-label="Search" style=" font-family: 'Itim',cursive;">
-                    <button class="btn btn-sm btn-outline-dark my-2 my-sm-0" type="submit"  onClick="populate_searchbox();return false">Add</button>
-                  </form>
-        
-                  <!--Selected ingredients-->  
-                  <div class = "d-inline col-12" style="word-wrap:break-word">
-                      <div id="search_tags" style="font-family: 'Itim',cursive">
-        
-                      </div>
-                  </div>
-              </div>
-          </div>
 
 
           <!--Right navigation bar-->
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ml-auto" style = "margin-right: 0px; font-family: 'Itim', cursive; font-size: small;">
               <li class="nav-item active" >
-                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="index.php">Home <span class="sr-only">(current)</span></a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Browse all recipes</a>
+                <a class="nav-link" href="allrecipe.php">Browse all recipes</a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="profile.php">My Profile</a>
-            </li>
-              <li class="nav-item">
-                  <a class="nav-link" href="#">Settings</a>
-              </li>
-            </ul>
           </div>
 
       </nav>
 
-
-   
-
-      <!--Categories-->
-      <div id="categories">
-          <nav class="navbar navbar-expand-lg navbar-light row" style ="padding-top: 0; padding-left: 0; padding-right: 0; ">
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#categoryNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="categoryNavDropdown">
-                <ul id='navbar' class="navbar-nav col" style="font-family: 'Itim', cursive; font-size: medium; margin-right: 0; padding-right: 0;">
-            
-                </ul>
-            </div>
-          </nav>
-      </div>
-    </div>
 
     <div class="container" style="font-family: 'Itim', cursive; font-size: medium;">
     
@@ -168,10 +102,14 @@
             
                     if($verified) {
                         $_SESSION["user"] = $username;
-                        echo '<div class="alert alert-success" role="alert">
+                        echo '<div class="mt-4 alert alert-success" role="alert">
                         <center><h1>Successful Login</h1></center>
+
                       </div>';
-                    }     
+
+                    }
+                    echo '
+                    <center><a href="index.php" type="button" class="btn btn-warning">Click here to start searching!</a></center>';
             ?>
         </center>
     </div>

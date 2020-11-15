@@ -1,17 +1,19 @@
 <?php
+    session_start();
     require_once "autoload.php";
+    if(isset($_SESSION["user"])){
+        $username = $_SESSION["user"];
+        $recipe_id = $_POST['recipe'];
+        $dao = new RecipeDAO();
+        $recipe = new Recipe($username, $recipe_id);
+        $status = $dao->add($recipe);
 
-    $username = "kennethlekk";
-    $recipe_id = 1234;
-    $dao = new RecipeDAO();
-    $recipe = new Recipe($username, $recipe_id);
-    $status = $dao->add($recipe);
+        if ($status){
+            echo "YAY";
+        }
+        else{
+            echo "FUCK";
+        }
 
-    if ($status){
-        echo "YAY";
     }
-    else{
-        echo "FUCK";
-    }
-
 ?>

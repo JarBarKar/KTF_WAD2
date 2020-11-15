@@ -102,7 +102,7 @@
     <!--Navbar-->
     <div id="sticky_top" style='position: sticky'>
       <nav class="navbar navbar-expand-lg navbar-light row" style ="background-color: #FF69B4">
-          <a class="navbar-brand" href="index.html">
+          <a class="navbar-brand" href="index.php">
               <img src="images/small ktf logo.png" width="85" height="40" alt="" loading="lazy" style = "margin-left:100px">
           </a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -131,18 +131,28 @@
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ml-auto" style = "margin-right: 0px; font-family: 'Itim', cursive; font-size: small;">
               <li class="nav-item active" >
-                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="index.php">Home <span class="sr-only">(current)</span></a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Browse all recipes</a>
+                <a class="nav-link" href="allrecipe.php">Browse all recipes</a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="profile.php">My Profile</a>
-            </li>
-              <li class="nav-item">
-                  <a class="nav-link" href="#">Settings</a>
-              </li>
-            </ul>
+              <?php
+                if(!isset($_SESSION['user'])){
+                    echo '
+                    <li class="nav-item">
+                        <a class="nav-link" href="profile.php">Sign up/Sign in</a>
+                    </li>';
+                }
+                if(isset($_SESSION['user'])){
+                    echo '
+                    <li class="nav-item">
+                        <a class="nav-link" href="dashboard/dashboard.php">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="login_system/logout.php">Sign Out</a>
+                    </li>';
+                }
+              ?>
           </div>
 
       </nav>

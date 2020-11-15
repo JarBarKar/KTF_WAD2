@@ -53,62 +53,38 @@
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
-          
-          <!--Search Bar-->
-          <div class="container row" style="width:40%; margin-left : 80px">
-              <div class="row">
-                <form class="form-inline col-12 mb-2"  id='search_box'>
-                    <input id='ingredient_input' class="form-control mr-2 typeahead" type="search" placeholder="Find an Ingredient" aria-label="Search" style=" font-family: 'Itim',cursive;">
-                    <button class="btn btn-sm btn-outline-dark my-2 my-sm-0" type="submit"  onClick="populate_searchbox();return false">Add</button>
-                  </form>
-        
-                  <!--Selected ingredients-->  
-                  <div class = "d-inline col-12" style="word-wrap:break-word">
-                      <div id="search_tags" style="font-family: 'Itim',cursive">
-        
-                      </div>
-                  </div>
-              </div>
-          </div>
 
 
           <!--Right navigation bar-->
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ml-auto" style = "margin-right: 0px; font-family: 'Itim', cursive; font-size: small;">
               <li class="nav-item active" >
-                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="index.php">Home <span class="sr-only">(current)</span></a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Browse all recipes</a>
+                <a class="nav-link" href="allrecipe.php">Browse all recipes</a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="profile.php">My Profile</a>
-            </li>
-              <li class="nav-item">
-                  <a class="nav-link" href="#">Settings</a>
-              </li>
+              <?php
+                if(!isset($_SESSION['user'])){
+                    echo '
+                    <li class="nav-item">
+                        <a class="nav-link" href="profile.php">Sign up/Sign in</a>
+                    </li>';
+                }
+                if(isset($_SESSION['user'])){
+                    echo '
+                    <li class="nav-item">
+                        <a class="nav-link" href="dashboard/dashboard.php">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="login_system/logout.php">Sign Out</a>
+                    </li>';
+                }
+              ?>
             </ul>
           </div>
 
       </nav>
-
-
-   
-
-      <!--Categories-->
-      <div id="categories">
-          <nav class="navbar navbar-expand-lg navbar-light row" style ="padding-top: 0; padding-left: 0; padding-right: 0; ">
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#categoryNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="categoryNavDropdown">
-                <ul id='navbar' class="navbar-nav col" style="font-family: 'Itim', cursive; font-size: medium; margin-right: 0; padding-right: 0;">
-            
-                </ul>
-            </div>
-          </nav>
-      </div>
-    </div>
 
 	<div class="container" style="font-family: 'Itim', cursive; font-size: medium;">
 		

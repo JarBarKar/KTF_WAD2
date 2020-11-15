@@ -1,6 +1,7 @@
 body{
     margin: 0;
     padding: 0;
+    background-color: pink;
     font-family: 'Itim', cursive"
 }
 
@@ -12,7 +13,9 @@ header{
     height: 30px;
 }
 
-
+.favourite-card:hover{
+    cursor:pointer;
+}
 
 .logout_btn{
     padding: 5px;
@@ -33,93 +36,33 @@ header{
     background: #0D9DBB;
 }
 
-.sidebar{
-    background: pink;
-    position: fixed;
-    padding: 20px;
-    left: 0;
-    width: 250px;
-    height: 100%;
-    transition: 0.5s;
-    transition-property: left;
-}
 
-.sidebar .profile_image{
+
+.content .profile_image{
     width: 100px;
     height: 100px;
     border-radius: 100px;
     margin: 10px;
 }
 
-.sidebar h4{
-    color: #FF69B4;
-    margin-top: 0;
-    margin-bottom: 20px;
-}
-
-.sidebar a{
-    color: #fff;
-    display: block;
-    width: 100%;
-    line-height: 60px;
-    text-decoration: none;
-    padding-left: 40px;
-    box-sizing: border-box;
-    transition: 0.5s;
-    transition-property: background;
-}
-
-.sidebar a:hover{
-    background: #19B3D3;
-}
-
-.sidebar i{
-    padding-right: 10px;
-}
-
-label #sidebar_btn{
-    z-index: 1;
-    color: #fff;
-    position: fixed;
-    cursor: pointer;
-    left: 300px;
-    font-size: 20px;
-    margin: 5px 0;
-    transition: 0.5s;
-    transition-property: color;
-}
-
-label #sidebar_btn:hover{
-    color: #19B3D3;
-}
-
-#check:checked ~ .sidebar{
-    left: -190px;
-}
-
-#check:checked ~ .sidebar a span{
-    display: none;
-}
-
-#check:checked ~ .sidebar a{
-    font-size: 20px;
-    margin-left: 170px;
-    width: 80px;
-}
-
 .content{
-    margin-left: 250px;
-    background: url(demonslayer.png) no-repeat;
-    background-position: center;
-    background-size: cover;
-    height: 100vh;
-    transition: 0.5s;
+    text-align: center;
+    height: auto;
+
 }
 
-#check:checked ~ .content{
-    margin-left: 60px;
-}
+.footer {
+    position: relative;
+    top: 30px;
+    left: 0;
+    bottom: 0;
+    right :0;
+    width: 100%;
+    background-color: #FF69B4;
+    color: white;
+    text-align: center;
+    font-family: Arial; 
+    font-size: small;
+  }
 
-#check{
-    display: none;
-}
+

@@ -47,64 +47,39 @@
     <!--Navbar-->
     <div id="sticky_top" style='position: sticky'>
       <nav class="navbar navbar-expand-lg navbar-light row" style ="background-color: #FF69B4">
-          <a class="navbar-brand" href="index.html">
+          <a class="navbar-brand" href="index.php">
               <img src="images/small ktf logo.png" width="85" height="40" alt="" loading="lazy" style = "margin-left:100px">
           </a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
-          
-          <!--Search Bar-->
-          <div class="container row" style="width:40%; margin-left : 80px">
-              <div class="row">
-                <form class="form-inline col-12 mb-2"  id='search_box'>
-                    <input id='ingredient_input' class="form-control mr-2 typeahead" type="search" placeholder="Find an Ingredient" aria-label="Search" style=" font-family: 'Itim',cursive;">
-                    <button class="btn btn-sm btn-outline-dark my-2 my-sm-0" type="submit"  onClick="populate_searchbox();return false">Add</button>
-                  </form>
-        
-                  <!--Selected ingredients-->  
-                  <div class = "d-inline col-12" style="word-wrap:break-word">
-                      <div id="search_tags" style="font-family: 'Itim',cursive">
-        
-                      </div>
-                  </div>
-              </div>
-          </div>
+
 
 
           <!--Right navigation bar-->
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ml-auto" style = "margin-right: 0px; font-family: 'Itim', cursive; font-size: small;">
               <li class="nav-item" >
-                <a class="nav-link" href="index.html">Home </a>
+                <a class="nav-link" href="index.php">Home </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="allrecipe.html">Browse all recipes</a>
+                <a class="nav-link" href="allrecipe.php">Browse all recipes</a>
               </li>
-              <li class="nav-item active">
-                <a class="nav-link" href="profile.php">My Profile<span class="sr-only">(current)</span></a>
-            </li>
+              <?php
+                if(isset($_SESSION['user'])){
+                    echo '
+                    <li class="nav-item">
+                        <a class="nav-link" href="dashboard/dashboard.php">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="login_system/logout.php">Sign Out</a>
+                    </li>';
+                }
+              ?>
             </ul>
           </div>
 
       </nav>
-
-
-   
-
-      <!--Categories-->
-      <div id="categories">
-          <nav class="navbar navbar-expand-lg navbar-light row" style ="padding-top: 0; padding-left: 0; padding-right: 0; ">
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#categoryNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="categoryNavDropdown">
-                <ul id='navbar' class="navbar-nav col" style="font-family: 'Itim', cursive; font-size: medium; margin-right: 0; padding-right: 0;">
-            
-                </ul>
-            </div>
-          </nav>
-      </div>
     </div>
 
 	<div class="container" style="font-family: 'Itim', cursive; font-size: medium;">
@@ -140,16 +115,15 @@
 			
 			<button type="submit" class="btn btn-warning">Submit</button><br>
 
-			<small>Please click <a href="register.php" style="color:yellow">here</a> to create an account!</small>
+			<small>Please click <a href="register.php" style="color:#ff69b4">here</a> to create an account!</small>
 		</form>
     </div>
 
-    <div>
-    <div class = "row">
-        <div class = "card-columns" id = "card-columns"  style=" width:80%; margin: auto;margin-top: 30px;">
-
-        </div>
-    </div>
+    <!--Footer-->
+    <div class="footer" style='bottom:0;'>
+        <img src = "images/ktf_full_logo.png" width = 115 height = 40 style="margin-top:5px;">
+        &nbsp;&nbsp;&nbsp;&nbsp;Privacy Policy&nbsp;&nbsp;&nbsp;&nbsp;Sitemap &nbsp;&nbsp;&nbsp;&nbsp;© 2011 Group 29 All Rights Reserved&nbsp;&nbsp;&nbsp;&nbsp;80 Stamford Rd, Singapore 178902
+        <img src = "images/soma.png" width = 50 height = 50>
     </div>
         
 

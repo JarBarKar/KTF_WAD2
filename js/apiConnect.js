@@ -1,6 +1,6 @@
 
-const youtubeAPI='';
-const spoonAPI='0331861a99f94a42afa634825d08889e';
+const youtubeAPI='AIzaSyD9NqRiVfxb4NsnsfXrWht1MZZ6S2SXnDo';
+const spoonAPI='900acd2d255c4a5b9458546a2a446453';
 
 
 
@@ -9,6 +9,7 @@ const spoonAPI='0331861a99f94a42afa634825d08889e';
 getIngredients:search api for recipes given a list of ingredients. Takes in list.
 youtubeLink:search an asmr video for the recipe selected
 getDetail:get detail of a recipe gen its recipeid
+getFavourite: get favorite cards
 */
 function call_api(input,functionName) {
     // Step 1
@@ -160,8 +161,9 @@ function urlFunction(input,functionName) {
         return final_url
     }
     else if(functionName=="getFavourite"){
+        console.log('TEST');
         let base="https://api.spoonacular.com/recipes/informationBulk?ids=";
-        let end='apiKey='
+        let end='&apiKey=';
         for (var index = 0; index<input.length; index++){
             if (index==0){
                 base=base+input[index];

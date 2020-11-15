@@ -170,7 +170,7 @@ function actionFunction(xml,functionName){
                             </div>
                     
                             <div class= "d-flex justify-content-center">
-                                <div class="card-text" style="display: inline;margin-right: 10px;">${recipe.missedIngredientCount} missing ingredients</div>
+                                <div class="card-text" style="display: inline;margin-right: 10px;font-size:small;">${recipe.missedIngredientCount} missing ingredients</div>
                                 <i class="far fa-question-circle" style="display: inline;"></i>
                             </div> 
                         </div>
@@ -428,3 +428,9 @@ function populate_carousel(){
     // }); 
 
 // }
+function recipeImageRandom(){
+    let imagecount=Object.keys(randomImgUrl).length;
+    console.log(imagecount);
+    let rannum=Math.floor(Math.random() * imagecount);
+    document.getElementById("recipeFillerImage").setAttribute("src","images/random/"+randomImgUrl[rannum]);
+}

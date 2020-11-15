@@ -1,5 +1,10 @@
 const youtubeAPI='';
+<<<<<<< HEAD
 const spoonAPI='0331861a99f94a42afa634825d08889e';
+=======
+const spoonAPI='7bdebac7d78542eb94a99bcf443e1f89';
+
+>>>>>>> 9e318b9cf7fcbb8c954ffbf1d86e140ac260af6c
 
 
 

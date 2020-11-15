@@ -33,11 +33,7 @@
     </style>
 </head>
 
-<<<<<<< HEAD
-<body style = "background-color: black"  onload="populateRecipe();">
-=======
 <body style = "background-color: black"  onload="populateRecipe();recipeImageRandom()">
->>>>>>> 9e318b9cf7fcbb8c954ffbf1d86e140ac260af6c
     <!--Navbar-->
 
     <div id="sticky_top" style='position: sticky'>
@@ -83,15 +79,17 @@
         <div class="container-fluid row">
 
             <!-- image -->
-          <div class="container col-12 col-sm-5 col-lg-4">
+          <div class="container col-5">
             <img id="recipeImage" src='https://spoonacular.com/recipeImages/955152-556x370.jpg' class="img-fluid" alt="" style = "border-style: solid; border-color:black;">
-            <img id="recipeFillerImage" src="images/sakura.png" class="img-fluid d-none d-sm-none d-md-block" alt="">
+            <img src="images/sakura.png" class="img-fluid" alt="">
           </div>
 
           <!-- summary -->
-          <div class="container col-12 col-sm-7 col-lg-8">
+          <div class="container col-12 col-sm-5 col-lg-4">
+            <span id='recipeID' value=''></span>
             <h1 id="recipeTitle" class = "bg-warning" style = "border-style: solid; border-color:black;">Recipe title</h1>
             <div id="recipeDiet">
+            <img id="recipeFillerImage" src="images/sakura.png" class="img-fluid d-none d-sm-none d-md-block" alt="">
 
             </div>
             <div style ="border-style: solid; border-radius: 3%; font-size: small;" id="recipeSummary">summary</div>
@@ -127,7 +125,7 @@
 
         <div class="container-fluid row mt-3">
         <!-- ingredients -->
-          <div class="container col-12 col-sm-6 col-lg-4" style = "border-style: solid; border-color:black; background-color: #ffff66">
+        <div class="container col-12 col-sm-6 col-lg-4" style = "border-style: solid; border-color:black; background-color: #ffff66">
               <h2>Ingredients</h2>
               <div>
                 <ul  id="recipeIngredients">
@@ -139,7 +137,7 @@
 
 
         <!-- steps -->
-          <div class="container col-12 col-sm-6 col-lg-7" style = "border-style: solid; border-color:black; background-color: #ffff99">
+        <div class="container col-12 col-sm-6 col-lg-7" style = "border-style: solid; border-color:black; background-color: #ffff99">
               <h2>Instructions</h2>
               <div>
                 <ol id="recipeInstructions">
@@ -187,12 +185,8 @@
 <script src="js/apiConnect.js"></script>
 <script src="js/categories.js"></script>
 <script src="js/dropdown.js"></script>
-<<<<<<< HEAD
 <script src='js/passrecipe_ajax.js'></script>
 </script>
-=======
-<script src="js/random.js"></script>
->>>>>>> 9e318b9cf7fcbb8c954ffbf1d86e140ac260af6c
 </body>
 </html>
 

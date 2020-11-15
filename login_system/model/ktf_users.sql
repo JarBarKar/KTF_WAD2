@@ -11,3 +11,9 @@ CREATE TABLE users (
     hashed_password VARCHAR(255) NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE saved_recipes (
+    username VARCHAR(50) NOT NULL,
+    recipe_id VARCHAR(50) NOT NUll,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
